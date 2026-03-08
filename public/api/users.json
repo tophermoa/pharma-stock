@@ -1,0 +1,34 @@
+[
+    {
+        "id": 1,
+        "name": "John Doe",
+        "joined": "Joined Oct 2023",
+        "role": "Admin",
+        "lastLogin": "24 Oct 2023, 10:30 AM",
+        "avatar": "https://lh3.googleusercontent.com/aida-public/AB6AXuDO7POIg0Leo_4mI0UN33RKclUlSX55-aZO-66F0zOXWcmPbY7cHQGFE0vRM8RDuRzD04SLCG-1ld3C2QX1jl_A158QMG_icV4ni35As4yuKZHtQl6oQVe_EtIbtLmiwhNj3sUqQoT1kIvPRLonS9KPZAGL9sPjdly-pyRv7UiJ0ZN1ncFp0ryO6P1cPWEIece4dnfflyiY8u4szZQtp_Yb-0AAGwHOi12bOJrLzyDLtD6N_qRfkEclVSZE2AVffb7ghtfSEgg8UF0d"
+    },
+    {
+        "id": 2,
+        "name": "Sarah Smith",
+        "joined": "Joined Jan 2024",
+        "role": "Pharmacist",
+        "lastLogin": "Today, 08:45 AM",
+        "avatar": "https://lh3.googleusercontent.com/aida-public/AB6AXuAqhnWEOtECfy84KSshAUia18PnJq2qSoq01LZkpkiZ99Ppg7WugVZzCYEL-fZWAEqVKp6jSx-utQ1233No2Z10WqXFiSrWHw7tR5D5gdKoDiuX7jdAQ2W1agExA07KNKkKufCO2L-QM04o8K0ljOTBcFG2g9jRAcokxrKcuy6upRCwzOv_vkbb0s8TSWnyoANO6L5hSppDiqKjFD-dyr6xHz86XrqPx0_515RjF0MSQrsAlk47X_ADXDECdFuZl3_leLa-GkCDvubX"
+    },
+    {
+        "id": 3,
+        "name": "Mike Johnson",
+        "joined": "Joined Feb 2024",
+        "role": "Cashier",
+        "lastLogin": "20 Feb 2024, 02:15 PM",
+        "avatar": "https://lh3.googleusercontent.com/aida-public/AB6AXuCMfgiEQEWqJP4LK0bgfeobD2WcliCdheu2VcPABlD5jcWI7p4EcnvfAwTQR8a_16Ay7F-qBvlHZfGmiuQNszumen51Y8rbASf7MkojRvsG-onCOXvRe6UtIrBJ_JV96V49tS5NAH5q1_FNUncy2l11nrFO-ASl3Zl2hhG8f5ctrOYy_JI0NvvMgmvxJc4xUh0E7G0YtnWRQ9EdjQp57if69-uUkyMXWw_NlT9ef2Z9t4Ur-cM50tdCmH9HFyxdDLJb3VUMchdzS7CR"
+    },
+    {
+        "id": 4,
+        "name": "Elena Rodriguez",
+        "joined": "Joined Sep 2023",
+        "role": "Owner",
+        "lastLogin": "Yesterday, 11:20 AM",
+        "avatar": "https://lh3.googleusercontent.com/aida-public/AB6AXuAtbE_FaAC0I_tK2dEvLT3Ld4DctLRchcAVGbCBP2X9NBJA-WBav9SWyts1o1qdq6jQnkARhZOeGnQoDALehU2QjS84IP7U_AoyHlqQd9_nzyurSjY263QRdPuFIL4wFfmo6aTrfma39Mh5SZ04KVZk4ARMkuZWIQfGhsFayZRMXbjRF53TIYeLmPYP0K2hkoGRb991HAUXIhWDf50h5V7oFobZeirSRaIw2J9e5JhWC8AlbCA-e9mOE7zfeOsYi3KyKosZoIpqtP0I"
+    }
+]

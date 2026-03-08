@@ -1,0 +1,202 @@
+[
+    {
+        "id": 1,
+        "name": "Global Pharma Dist.",
+        "initials": "GP",
+        "contact": "John Smith",
+        "email": "contact@globalpharma.com",
+        "phone": "+1-555-0101",
+        "address": "123 Industrial Way, NJ",
+        "status": "Active"
+    },
+    {
+        "id": 2,
+        "name": "HealthCare Meds",
+        "initials": "HM",
+        "contact": "Sarah Jenkins",
+        "email": "s.jenkins@hcm.com",
+        "phone": "+1-555-0102",
+        "address": "456 Medical Plaza, CA",
+        "status": "Active"
+    },
+    {
+        "id": 3,
+        "name": "MediSource Inc.",
+        "initials": "MS",
+        "contact": "Robert Chen",
+        "email": "info@medisource.com",
+        "phone": "+1-555-0103",
+        "address": "789 Supply Rd, TX",
+        "status": "Inactive"
+    },
+    {
+        "id": 4,
+        "name": "BioPharma Co.",
+        "initials": "BP",
+        "contact": "Emily White",
+        "email": "e.white@biopharma.io",
+        "phone": "+1-555-0104",
+        "address": "321 Lab Lane, MA",
+        "status": "Active"
+    },
+    {
+        "id": 5,
+        "name": "Apex Therapeutics",
+        "initials": "AT",
+        "contact": "David Miller",
+        "email": "dmiller@apexthera.com",
+        "phone": "+1-555-0105",
+        "address": "55 Innovation Dr, NY",
+        "status": "Active"
+    },
+    {
+        "id": 6,
+        "name": "Nova Biosciences",
+        "initials": "NB",
+        "contact": "Lisa Wong",
+        "email": "lwong@novabio.net",
+        "phone": "+1-555-0106",
+        "address": "88 Research Blvd, WA",
+        "status": "Under Review"
+    },
+    {
+        "id": 7,
+        "name": "Prime Medical Supply",
+        "initials": "PM",
+        "contact": "Michael Brown",
+        "email": "sales@primemed.com",
+        "phone": "+1-555-0107",
+        "address": "220 Health St, FL",
+        "status": "Active"
+    },
+    {
+        "id": 8,
+        "name": "Sunrise Pharmaceuticals",
+        "initials": "SP",
+        "contact": "Amanda Davis",
+        "email": "adavis@sunrisepharma.com",
+        "phone": "+1-555-0108",
+        "address": "404 Sunrise Ave, AZ",
+        "status": "Active"
+    },
+    {
+        "id": 9,
+        "name": "Evergreen Meds",
+        "initials": "EM",
+        "contact": "Chris Wilson",
+        "email": "cwilson@evergreen.com",
+        "phone": "+1-555-0109",
+        "address": "101 Pine Rd, OR",
+        "status": "Inactive"
+    },
+    {
+        "id": 10,
+        "name": "Quantum Health",
+        "initials": "QH",
+        "contact": "Jessica Taylor",
+        "email": "jtaylor@quantumhealth.io",
+        "phone": "+1-555-0110",
+        "address": "500 Quantum Way, CO",
+        "status": "Active"
+    },
+    {
+        "id": 11,
+        "name": "Pioneer Drugs",
+        "initials": "PD",
+        "contact": "Matthew Moore",
+        "email": "mmoore@pioneerdrugs.com",
+        "phone": "+1-555-0111",
+        "address": "333 Frontier Rd, UT",
+        "status": "Active"
+    },
+    {
+        "id": 12,
+        "name": "Velocity Pharma",
+        "initials": "VP",
+        "contact": "Ashley Anderson",
+        "email": "aanderson@velocity.net",
+        "phone": "+1-555-0112",
+        "address": "777 Speed St, NV",
+        "status": "Under Review"
+    },
+    {
+        "id": 13,
+        "name": "Harmony Therapeutics",
+        "initials": "HT",
+        "contact": "Kevin Thomas",
+        "email": "kthomas@harmony.com",
+        "phone": "+1-555-0113",
+        "address": "909 Peace Ave, HI",
+        "status": "Active"
+    },
+    {
+        "id": 14,
+        "name": "Vanguard Medical",
+        "initials": "VM",
+        "contact": "Lauren Jackson",
+        "email": "ljackson@vanguardmed.com",
+        "phone": "+1-555-0114",
+        "address": "111 Leading Blvd, VA",
+        "status": "Active"
+    },
+    {
+        "id": 15,
+        "name": "Crescent Biosciences",
+        "initials": "CB",
+        "contact": "Ryan White",
+        "email": "rwhite@crescent.org",
+        "phone": "+1-555-0115",
+        "address": "444 Moon Rd, NC",
+        "status": "Inactive"
+    },
+    {
+        "id": 16,
+        "name": "Stellar Supplies",
+        "initials": "SS",
+        "contact": "Brittany Harris",
+        "email": "bharris@stellar.com",
+        "phone": "+1-555-0116",
+        "address": "888 Star St, SC",
+        "status": "Active"
+    },
+    {
+        "id": 17,
+        "name": "Oasis Pharma",
+        "initials": "OP",
+        "contact": "Jason Martin",
+        "email": "jmartin@oasis.net",
+        "phone": "+1-555-0117",
+        "address": "222 Desert Way, NM",
+        "status": "Under Review"
+    },
+    {
+        "id": 18,
+        "name": "Infinity Drugs",
+        "initials": "ID",
+        "contact": "Melissa Thompson",
+        "email": "mthompson@infinity.com",
+        "phone": "+1-555-0118",
+        "address": "666 Endless Rd, IL",
+        "status": "Active"
+    },
+    {
+        "id": 19,
+        "name": "Horizon Medical",
+        "initials": "HM",
+        "contact": "Daniel Garcia",
+        "email": "dgarcia@horizon.com",
+        "phone": "+1-555-0119",
+        "address": "555 Skyline Dr, MI",
+        "status": "Active"
+    },
+    {
+        "id": 20,
+        "name": "Summit Therapeutics",
+        "initials": "ST",
+        "contact": "Sophia Martinez",
+        "email": "smartinez@summit.org",
+        "phone": "+1-555-0120",
+        "address": "999 Peak Blvd, OH",
+        "status": "Active"
+    }
+]

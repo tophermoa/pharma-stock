@@ -1,0 +1,182 @@
+[
+    {
+        "id": "#TRX-98231",
+        "date": "Oct 24, 2023 14:22",
+        "customer": "John D. (Walk-in)",
+        "items": "Amoxicillin, Aspirin (3)",
+        "amount": "$45.50",
+        "status": "Completed",
+        "statusColor": "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+    },
+    {
+        "id": "#TRX-98230",
+        "date": "Oct 24, 2023 13:45",
+        "customer": "Public Health Clinic",
+        "items": "Bulk Insulin Supply (50)",
+        "amount": "$1,240.00",
+        "status": "Completed",
+        "statusColor": "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+    },
+    {
+        "id": "#TRX-98229",
+        "date": "Oct 24, 2023 12:10",
+        "customer": "Emily R. (Online)",
+        "items": "Multivitamins, Zinc (2)",
+        "amount": "$28.99",
+        "status": "Pending",
+        "statusColor": "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400"
+    },
+    {
+        "id": "#TRX-98228",
+        "date": "Oct 24, 2023 11:30",
+        "customer": "Michael S. (Walk-in)",
+        "items": "Lisinopril 10mg (1)",
+        "amount": "$12.50",
+        "status": "Refunded",
+        "statusColor": "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
+    },
+    {
+        "id": "#TRX-98227",
+        "date": "Oct 24, 2023 10:15",
+        "customer": "Sarah P. (Walk-in)",
+        "items": "Omeprazole 20mg (2)",
+        "amount": "$34.20",
+        "status": "Completed",
+        "statusColor": "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+    },
+    {
+        "id": "#TRX-98226",
+        "date": "Oct 24, 2023 09:40",
+        "customer": "David L. (Walk-in)",
+        "items": "Cetirizine 10mg (1)",
+        "amount": "$8.50",
+        "status": "Completed",
+        "statusColor": "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+    },
+    {
+        "id": "#TRX-98225",
+        "date": "Oct 23, 2023 16:55",
+        "customer": "St. Mary's Hospital",
+        "items": "IV Fluids (20)",
+        "amount": "$450.00",
+        "status": "Completed",
+        "statusColor": "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+    },
+    {
+        "id": "#TRX-98224",
+        "date": "Oct 23, 2023 15:20",
+        "customer": "Mark B. (Online)",
+        "items": "First Aid Kit (1)",
+        "amount": "$25.00",
+        "status": "Pending",
+        "statusColor": "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400"
+    },
+    {
+        "id": "#TRX-98223",
+        "date": "Oct 23, 2023 14:10",
+        "customer": "Anna T. (Walk-in)",
+        "items": "Ibuprofen 400mg (2)",
+        "amount": "$15.00",
+        "status": "Completed",
+        "statusColor": "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+    },
+    {
+        "id": "#TRX-98222",
+        "date": "Oct 23, 2023 13:05",
+        "customer": "Local Care Home",
+        "items": "Various Prescriptions (15)",
+        "amount": "$850.75",
+        "status": "Completed",
+        "statusColor": "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+    },
+    {
+        "id": "#TRX-98221",
+        "date": "Oct 23, 2023 11:45",
+        "customer": "Rachel W. (Walk-in)",
+        "items": "Cough Syrup (1)",
+        "amount": "$12.99",
+        "status": "Completed",
+        "statusColor": "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+    },
+    {
+        "id": "#TRX-98220",
+        "date": "Oct 23, 2023 10:30",
+        "customer": "Tom H. (Online)",
+        "items": "Aspirin 75mg (3)",
+        "amount": "$18.50",
+        "status": "Refunded",
+        "statusColor": "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
+    },
+    {
+        "id": "#TRX-98219",
+        "date": "Oct 23, 2023 09:15",
+        "customer": "City Dental Clinic",
+        "items": "Dental Anesthetics (10)",
+        "amount": "$320.00",
+        "status": "Completed",
+        "statusColor": "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+    },
+    {
+        "id": "#TRX-98218",
+        "date": "Oct 22, 2023 16:40",
+        "customer": "Lisa K. (Walk-in)",
+        "items": "Vitamin D Supplements (2)",
+        "amount": "$22.00",
+        "status": "Completed",
+        "statusColor": "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+    },
+    {
+        "id": "#TRX-98217",
+        "date": "Oct 22, 2023 15:05",
+        "customer": "Jason M. (Walk-in)",
+        "items": "Antacids (1)",
+        "amount": "$9.50",
+        "status": "Completed",
+        "statusColor": "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+    },
+    {
+        "id": "#TRX-98216",
+        "date": "Oct 22, 2023 14:00",
+        "customer": "Sunset Valley Clinic",
+        "items": "Bandages, Gauze (50)",
+        "amount": "$150.25",
+        "status": "Pending",
+        "statusColor": "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400"
+    },
+    {
+        "id": "#TRX-98215",
+        "date": "Oct 22, 2023 12:20",
+        "customer": "Olivia G. (Online)",
+        "items": "Allergy Meds (2)",
+        "amount": "$35.00",
+        "status": "Completed",
+        "statusColor": "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+    },
+    {
+        "id": "#TRX-98214",
+        "date": "Oct 22, 2023 11:10",
+        "customer": "William F. (Walk-in)",
+        "items": "Eye Drops (1)",
+        "amount": "$14.99",
+        "status": "Completed",
+        "statusColor": "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+    },
+    {
+        "id": "#TRX-98213",
+        "date": "Oct 22, 2023 09:50",
+        "customer": "Megan S. (Walk-in)",
+        "items": "Hydrocortisone Cream (1)",
+        "amount": "$11.00",
+        "status": "Refunded",
+        "statusColor": "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
+    },
+    {
+        "id": "#TRX-98212",
+        "date": "Oct 21, 2023 16:30",
+        "customer": "Regional Health Board",
+        "items": "Vaccines Batch (100)",
+        "amount": "$4,500.00",
+        "status": "Completed",
+        "statusColor": "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+    }
+]
