@@ -109,7 +109,7 @@ export default function ReportsPage() {
                     </div>
                 </div>
 
-                {/* Charts Area */}
+                {/* Chart Area */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
                     <div className="lg:col-span-2 bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
                         <div className="flex items-center justify-between mb-6">
