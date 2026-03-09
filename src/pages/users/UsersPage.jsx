@@ -22,6 +22,13 @@ export default function UsersPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // Dropdown states
+    const [selectedRole, setSelectedRole] = useState('All Roles');
+    const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
+    const [selectedStatus, setSelectedStatus] = useState('Status: Active');
+    const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
+
     const { setTitleContent, setActionButton } = useHeader();
 
     useEffect(() => {
@@ -63,6 +70,23 @@ export default function UsersPage() {
         };
     }, [setTitleContent, setActionButton]);
 
+    // Filtering logic
+    const filteredUsers = users.filter(user => {
+        const matchesRole = selectedRole === 'All Roles' || user.role === selectedRole;
+
+        let matchesStatus = true;
+        if (selectedStatus === 'Status: Active') {
+            matchesStatus = user.status === 'Active';
+        } else if (selectedStatus === 'Status: Inactive') {
+            matchesStatus = user.status === 'Inactive';
+        } else if (selectedStatus === 'Status: Suspended') {
+            matchesStatus = user.status === 'Suspended';
+        }
+        // 'Status: All' means matchesStatus remains true
+
+        return matchesRole && matchesStatus;
+    });
+
     return (
         <div className="flex-1 flex flex-col min-h-screen bg-background-light dark:bg-background-dark -m-8">
             <div className="flex-1 p-8 space-y-6">
@@ -80,19 +104,75 @@ export default function UsersPage() {
                 </div>
 
                 {/* Filters */}
-                <div className="flex flex-wrap items-center gap-3 mb-6">
-                    <div className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-300 cursor-pointer hover:border-primary transition-colors">
-                        <span className="material-symbols-outlined text-base">filter_list</span>
-                        All Roles
-                        <span className="material-symbols-outlined text-base">expand_more</span>
+                <div className="flex flex-wrap items-center gap-3 mb-6 relative">
+                    {/* Role Dropdown */}
+                    <div className="relative">
+                        <button
+                            onClick={() => setIsRoleDropdownOpen(!isRoleDropdownOpen)}
+                            onBlur={() => setTimeout(() => setIsRoleDropdownOpen(false), 200)}
+                            className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-300 hover:border-primary transition-colors focus:outline-none"
+                        >
+                            <span className="material-symbols-outlined text-base">filter_list</span>
+                            {selectedRole}
+                            <span className="material-symbols-outlined text-base">expand_more</span>
+                        </button>
+
+                        {isRoleDropdownOpen && (
+                            <div className="absolute top-full left-0 z-10 mt-1 w-48 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-lg py-1 overflow-hidden">
+                                {['All Roles', 'Admin', 'Pharmacist', 'Cashier', 'Owner'].map((role) => (
+                                    <button
+                                        key={role}
+                                        onClick={() => {
+                                            setSelectedRole(role);
+                                            setIsRoleDropdownOpen(false);
+                                        }}
+                                        className={`w-full text-left px-4 py-2 text-sm transition-colors ${selectedRole === role
+                                            ? 'bg-primary/10 text-primary font-medium'
+                                            : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+                                            }`}
+                                    >
+                                        {role}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                     </div>
-                    <div className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-300 cursor-pointer hover:border-primary transition-colors">
-                        <span className="material-symbols-outlined text-base">radio_button_checked</span>
-                        Status: Active
-                        <span className="material-symbols-outlined text-base">expand_more</span>
+
+                    {/* Status Dropdown */}
+                    <div className="relative">
+                        <button
+                            onClick={() => setIsStatusDropdownOpen(!isStatusDropdownOpen)}
+                            onBlur={() => setTimeout(() => setIsStatusDropdownOpen(false), 200)}
+                            className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-300 hover:border-primary transition-colors focus:outline-none"
+                        >
+                            <span className="material-symbols-outlined text-base">radio_button_checked</span>
+                            {selectedStatus}
+                            <span className="material-symbols-outlined text-base">expand_more</span>
+                        </button>
+
+                        {isStatusDropdownOpen && (
+                            <div className="absolute top-full left-0 z-10 mt-1 w-48 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-lg py-1 overflow-hidden">
+                                {['Status: All', 'Status: Active', 'Status: Inactive', 'Status: Suspended'].map((status) => (
+                                    <button
+                                        key={status}
+                                        onClick={() => {
+                                            setSelectedStatus(status);
+                                            setIsStatusDropdownOpen(false);
+                                        }}
+                                        className={`w-full text-left px-4 py-2 text-sm transition-colors ${selectedStatus === status
+                                            ? 'bg-primary/10 text-primary font-medium'
+                                            : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+                                            }`}
+                                    >
+                                        {status}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                     </div>
+
                     <div className="ml-auto text-sm text-slate-500">
-                        Showing {users.length} results
+                        Showing {filteredUsers.length} results
                     </div>
                 </div>
 
@@ -118,44 +198,51 @@ export default function UsersPage() {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
-                                    {users.map((user, index) => (
-                                        <tr
-                                            key={user.id}
-                                            className={`hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors ${index === users.length - 1 ? 'border-none' : ''}`}
-                                        >
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="flex items-center gap-3">
-                                                    <img
-                                                        className="w-10 h-10 rounded-full object-cover"
-                                                        alt={`${user.name} avatar`}
-                                                        src={user.avatar}
-                                                    />
-                                                    <div>
-                                                        <p className="text-sm font-bold text-slate-900 dark:text-white">{user.name}</p>
-                                                        <p className="text-xs text-slate-500 dark:text-slate-400">{user.joined}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border ${getRoleBadgeClasses(user.role)}`}>
-                                                    {user.role}
-                                                </span>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <p className="text-sm text-slate-700 dark:text-slate-300 font-medium">{user.lastLogin}</p>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-right">
-                                                <div className="flex items-center justify-end gap-2">
-                                                    <button className="p-1.5 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-lg transition-colors">
-                                                        <span className="material-symbols-outlined text-lg">edit</span>
-                                                    </button>
-                                                    <button className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
-                                                        <span className="material-symbols-outlined text-lg">delete</span>
-                                                    </button>
-                                                </div>
+                                    {filteredUsers.length === 0 ? (
+                                        <tr>
+                                            <td colSpan="4" className="px-6 py-12 text-center text-slate-500 dark:text-slate-400">
+                                                No users match the selected filters.
                                             </td>
                                         </tr>
-                                    ))}
+                                    ) : (
+                                        filteredUsers.map((user, index) => (
+                                            <tr
+                                                key={user.id}
+                                                className={`hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors ${index === filteredUsers.length - 1 ? 'border-none' : ''}`}
+                                            >
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <div className="flex items-center gap-3">
+                                                        <img
+                                                            className="w-10 h-10 rounded-full object-cover"
+                                                            alt={`${user.name} avatar`}
+                                                            src={user.avatar}
+                                                        />
+                                                        <div>
+                                                            <p className="text-sm font-bold text-slate-900 dark:text-white">{user.name}</p>
+                                                            <p className="text-xs text-slate-500 dark:text-slate-400">{user.joined}</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border ${getRoleBadgeClasses(user.role)}`}>
+                                                        {user.role}
+                                                    </span>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <p className="text-sm text-slate-700 dark:text-slate-300 font-medium">{user.lastLogin}</p>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-right">
+                                                    <div className="flex items-center justify-end gap-2">
+                                                        <button className="p-1.5 text-slate-400 hover:text-primary hover:bg-primary/10 rounded-lg transition-colors">
+                                                            <span className="material-symbols-outlined text-lg">edit</span>
+                                                        </button>
+                                                        <button className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
+                                                            <span className="material-symbols-outlined text-lg">delete</span>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )))}
                                 </tbody>
                             </table>
                         </div>

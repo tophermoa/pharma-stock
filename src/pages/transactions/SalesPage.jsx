@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const MOCK_PRODUCTS = [
     {
@@ -95,6 +95,8 @@ export default function SalesPage() {
     const [currentDate, setCurrentDate] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("All Items");
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("Cash");
+    const searchInputRef = useRef(null);
+    const [isRefreshing, setIsRefreshing] = useState(false);
 
     // Cart Management Functions
     const addToCart = (product) => {
@@ -138,6 +140,26 @@ export default function SalesPage() {
         setCurrentTime("14:42:01");
     }, []);
 
+    // Keyboard Shortcuts
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === 'F1') {
+                e.preventDefault();
+                searchInputRef.current?.focus();
+            } else if (e.key === 'F5') {
+                e.preventDefault();
+                setIsRefreshing(true);
+                // Simulate network request
+                setTimeout(() => {
+                    setIsRefreshing(false);
+                }, 500);
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
+
     const subtotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
     const tax = subtotal * 0.1;
     const total = subtotal + tax;
@@ -162,6 +184,7 @@ export default function SalesPage() {
                             <div className="relative flex-1">
                                 <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
                                 <input
+                                    ref={searchInputRef}
                                     className="w-full pl-10 pr-4 py-3 bg-slate-100 dark:bg-slate-800 border-none rounded-xl focus:ring-2 focus:ring-primary transition-all text-base outline-none"
                                     placeholder="Search medicine, SKU, or generic name..."
                                     type="text"
@@ -186,7 +209,15 @@ export default function SalesPage() {
                     </div>
 
                     {/* Product Grid */}
-                    <div className="flex-1 overflow-y-auto p-4 pt-0">
+                    <div className="flex-1 overflow-y-auto p-4 pt-0 relative">
+                        {isRefreshing && (
+                            <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm rounded-xl">
+                                <div className="flex flex-col items-center gap-3 bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700">
+                                    <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                                    <p className="text-sm font-bold text-slate-700 dark:text-slate-300">Refreshing Stock...</p>
+                                </div>
+                            </div>
+                        )}
                         <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">
                             {filteredProducts.map((product) => (
                                 <div key={product.id} className="group flex flex-col bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden hover:border-primary transition-all">
@@ -327,9 +358,7 @@ export default function SalesPage() {
             <footer className="h-10 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 flex items-center justify-between text-[11px] text-slate-400 font-medium">
                 <div className="flex gap-4">
                     <span>F1: Search</span>
-                    <span>F2: Barcode</span>
                     <span>F5: Refresh Stock</span>
-                    <span>F12: Checkout</span>
                 </div>
                 <div className="flex items-center gap-4">
                     <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">calendar_today</span> {currentDate}</span>
