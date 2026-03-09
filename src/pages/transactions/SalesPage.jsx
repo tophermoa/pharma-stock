@@ -244,7 +244,7 @@ export default function SalesPage() {
                 </section>
 
                 {/* Right Column: Shopping Cart / Checkout */}
-                <section className="flex flex-col h-[70vh] lg:h-auto w-full lg:w-2/5 xl:w-1/3 bg-slate-50 dark:bg-background-dark shrink-0">
+                <section className="flex flex-col h-auto lg:h-auto w-full lg:w-2/5 xl:w-1/3 bg-slate-50 dark:bg-background-dark shrink-0">
                     {/* Header */}
                     <div className="p-6 pb-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-900">
                         <h3 className="text-lg font-bold flex items-center gap-2">
@@ -257,7 +257,7 @@ export default function SalesPage() {
                         </button>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                    <div className="flex-1 overflow-y-auto p-4 space-y-3 min-h-[300px] lg:min-h-0">
                         {cart.length === 0 ? (
                             <div className="h-full flex flex-col items-center justify-center text-slate-400 dark:text-slate-500">
                                 <span className="material-symbols-outlined text-5xl mb-2 opacity-50">shopping_cart</span>
@@ -355,7 +355,7 @@ export default function SalesPage() {
             </main>
 
             {/* Quick Access Footer Bar */}
-            <footer className="h-10 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 flex items-center justify-between text-[11px] text-slate-400 font-medium">
+            <footer className="hidden lg:flex h-10 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 items-center justify-between text-[11px] text-slate-400 font-medium">
                 <div className="flex gap-4">
                     <span>F1: Search</span>
                     <span>F5: Refresh Stock</span>

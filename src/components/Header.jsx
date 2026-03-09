@@ -1,10 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useHeader } from '../layouts/HeaderContext';
 import { useTheme } from '../layouts/ThemeContext';
+import { useAuth } from '../contexts/AuthContext';
 
 export function Header() {
     const location = useLocation();
+    const navigate = useNavigate();
+    const { logout } = useAuth();
     const { titleContent, actionButton, setIsMobileMenuOpen } = useHeader();
     const { theme, toggleTheme } = useTheme();
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -78,7 +81,15 @@ export function Header() {
                 )}
             </div>
 
-            <div ref={dropdownRef} className="flex items-center gap-1 sm:gap-2 md:gap-4 flex-shrink-0">
+            {/* Right Side: Action Button and Utilities */}
+            <div ref={dropdownRef} className="flex items-center gap-1 sm:gap-2">
+                {/* Action Button (Moved Before Utilities) */}
+                {actionButton && (
+                    <div className="mr-1 pr-1 sm:pr-2 md:mr-2 md:pr-4 border-r border-slate-200 dark:border-slate-800">
+                        {actionButton}
+                    </div>
+                )}
+
                 {/* Theme Toggle */}
                 <button
                     onClick={toggleTheme}
@@ -174,12 +185,19 @@ export function Header() {
                     )}
                 </div>
 
-                {actionButton && (
-                    <div className="ml-1 pl-1 sm:pl-2 md:ml-2 md:pl-4 border-l border-slate-200 dark:border-slate-800">
-                        {actionButton}
-                    </div>
-                )}
+                {/* Logout Button */}
+                <button
+                    onClick={() => {
+                        logout();
+                        navigate('/login');
+                    }}
+                    title="Logout"
+                    className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors ml-1"
+                >
+                    <span className="material-symbols-outlined text-[20px] sm:text-[24px]">logout</span>
+                </button>
+
             </div>
-        </header>
+        </header >
     );
 }

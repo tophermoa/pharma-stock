@@ -1,0 +1,26 @@
+{
+    "categories": [
+        {
+            "name": "Prescription Meds",
+            "percentage": 62,
+            "colorClass": "bg-primary"
+        },
+        {
+            "name": "OTC Products",
+            "percentage": 24,
+            "colorClass": "bg-blue-400"
+        },
+        {
+            "name": "Medical Equipment",
+            "percentage": 10,
+            "colorClass": "bg-purple-400"
+        },
+        {
+            "name": "Others",
+            "percentage": 4,
+            "colorClass": "bg-slate-300 dark:bg-slate-600"
+        }
+    ],
+    "mostProfitable": "Cardiovascular Meds",
+    "mostProfitableSubtitle": "Most profitable category this month"
+}

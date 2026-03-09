@@ -32,15 +32,19 @@ export function Sidebar() {
                 `}
             >
                 <div className="p-6 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <div className="bg-primary rounded-lg p-1.5 text-white flex items-center justify-center">
+                    <NavLink
+                        to="/"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="flex items-center gap-3 group outline-none"
+                    >
+                        <div className="bg-primary rounded-lg p-1.5 text-white flex items-center justify-center transition-transform duration-200 group-hover:scale-105 group-focus-visible:ring-2 group-focus-visible:ring-primary group-focus-visible:ring-offset-2 dark:group-focus-visible:ring-offset-slate-900">
                             <span className="material-symbols-outlined text-2xl">medical_services</span>
                         </div>
                         <div>
-                            <h1 className="text-slate-900 dark:text-white font-bold text-lg leading-tight">PharmaStock</h1>
+                            <h1 className="text-slate-900 dark:text-white font-bold text-lg leading-tight group-hover:text-primary dark:group-hover:text-primary transition-colors">PharmaStock</h1>
                             <p className="text-slate-500 dark:text-slate-400 text-xs">Inventory System</p>
                         </div>
-                    </div>
+                    </NavLink>
                     {/* Mobile Close Button */}
                     <button
                         onClick={() => setIsMobileMenuOpen(false)}

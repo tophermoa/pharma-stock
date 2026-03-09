@@ -26,7 +26,7 @@ export default function UsersPage() {
     // Dropdown states
     const [selectedRole, setSelectedRole] = useState('All Roles');
     const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
-    const [selectedStatus, setSelectedStatus] = useState('Status: Active');
+    const [selectedStatus, setSelectedStatus] = useState('Status: All');
     const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
 
     const { setTitleContent, setActionButton } = useHeader();

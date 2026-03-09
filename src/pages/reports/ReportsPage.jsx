@@ -13,6 +13,9 @@ export default function ReportsPage() {
     const [activeTab, setActiveTab] = useState('Sales Report');
     const [activeFilter, setActiveFilter] = useState('30 Days');
 
+    const [revenueData, setRevenueData] = useState(null);
+    const [isLoadingRevenue, setIsLoadingRevenue] = useState(true);
+
     useEffect(() => {
         const fetchReports = async () => {
             try {
@@ -20,10 +23,17 @@ export default function ReportsPage() {
                 if (!response.ok) throw new Error('Failed to fetch data');
                 const data = await response.json();
                 setTransactions(data);
+
+                // Fetch dynamic revenue by category data
+                const revResponse = await fetch('/api/revenue_category.json');
+                if (revResponse.ok) {
+                    setRevenueData(await revResponse.json());
+                }
             } catch (err) {
                 setError(err.message);
             } finally {
                 setIsLoading(false);
+                setIsLoadingRevenue(false);
             }
         };
         fetchReports();
@@ -279,53 +289,36 @@ export default function ReportsPage() {
                             <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
                                 <div>
                                     <h4 className="font-bold mb-6 dark:text-white">Revenue by Category</h4>
-                                    <div className="space-y-4">
-                                        <div>
-                                            <div className="flex justify-between text-xs mb-1 dark:text-slate-300">
-                                                <span>Prescription Meds</span>
-                                                <span className="font-bold">62%</span>
-                                            </div>
-                                            <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                                                <div className="bg-primary h-full w-[62%]"></div>
-                                            </div>
-                                        </div>
 
-                                        <div>
-                                            <div className="flex justify-between text-xs mb-1 dark:text-slate-300">
-                                                <span>OTC Products</span>
-                                                <span className="font-bold">24%</span>
-                                            </div>
-                                            <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                                                <div className="bg-blue-400 h-full w-[24%]"></div>
-                                            </div>
+                                    {isLoadingRevenue ? (
+                                        <div className="flex justify-center py-8">
+                                            <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
                                         </div>
+                                    ) : revenueData ? (
+                                        <div className="space-y-4">
+                                            {revenueData.categories.map((cat, idx) => (
+                                                <div key={idx}>
+                                                    <div className="flex justify-between text-xs mb-1 dark:text-slate-300">
+                                                        <span>{cat.name}</span>
+                                                        <span className="font-bold">{cat.percentage}%</span>
+                                                    </div>
+                                                    <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                                                        <div className={`${cat.colorClass} h-full`} style={{ width: `${cat.percentage}%` }}></div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <p className="text-sm text-slate-500 text-center py-4">Failed to load data.</p>
+                                    )}
+                                </div>
 
-                                        <div>
-                                            <div className="flex justify-between text-xs mb-1 dark:text-slate-300">
-                                                <span>Medical Equipment</span>
-                                                <span className="font-bold">10%</span>
-                                            </div>
-                                            <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                                                <div className="bg-purple-400 h-full w-[10%]"></div>
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <div className="flex justify-between text-xs mb-1 dark:text-slate-300">
-                                                <span>Others</span>
-                                                <span className="font-bold">4%</span>
-                                            </div>
-                                            <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-                                                <div className="bg-slate-300 dark:bg-slate-600 h-full w-[4%]"></div>
-                                            </div>
-                                        </div>
+                                {revenueData && !isLoadingRevenue && (
+                                    <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 text-center">
+                                        <p className="text-xs text-slate-500">{revenueData.mostProfitableSubtitle}</p>
+                                        <p className="text-sm font-bold text-primary mt-1">{revenueData.mostProfitable}</p>
                                     </div>
-                                </div>
-
-                                <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 text-center">
-                                    <p className="text-xs text-slate-500">Most profitable category this month</p>
-                                    <p className="text-sm font-bold text-primary mt-1">Cardiovascular Meds</p>
-                                </div>
+                                )}
                             </div>
                         </div>
 
