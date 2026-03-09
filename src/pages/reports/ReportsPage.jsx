@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import * as XLSX from 'xlsx';
 
 export default function ReportsPage() {
     const [transactions, setTransactions] = useState([]);
@@ -29,6 +32,79 @@ export default function ReportsPage() {
     const totalPages = Math.ceil(transactions.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const paginatedTransactions = transactions.slice(startIndex, startIndex + itemsPerPage);
+
+    const exportToPDF = () => {
+        try {
+            const doc = new jsPDF();
+
+            // Add Title
+            doc.setFontSize(18);
+            doc.text(`PharmaStock - ${activeTab}`, 14, 22);
+
+            // Add Date
+            doc.setFontSize(11);
+            doc.setTextColor(100);
+            doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
+
+            // Add Filter Info
+            doc.text(`Filter: ${activeFilter}`, 14, 36);
+
+            if (activeTab === 'Sales Report' && transactions.length > 0) {
+                const tableColumn = ["Date", "Transaction ID", "Customer", "Items", "Amount", "Status"];
+                const tableRows = [];
+
+                transactions.forEach(trx => {
+                    const trxData = [
+                        trx.date,
+                        trx.id,
+                        trx.customer,
+                        trx.items,
+                        trx.amount,
+                        trx.status
+                    ];
+                    tableRows.push(trxData);
+                });
+
+                autoTable(doc, {
+                    head: [tableColumn],
+                    body: tableRows,
+                    startY: 45,
+                    theme: 'striped',
+                    headStyles: { fillColor: [59, 130, 246] }
+                });
+            } else {
+                // Placeholder text for other tabs
+                doc.text("Data for this report type is currently unavailable.", 14, 50);
+            }
+
+            doc.save(`pharmastock_${activeTab.replace(/\s+/g, '_').toLowerCase()}.pdf`);
+        } catch (error) {
+            console.error("Failed to generate PDF:", error);
+            alert("Failed to generate PDF. See console for details.");
+        }
+    };
+
+    const exportToExcel = () => {
+        let dataToExport = [];
+
+        if (activeTab === 'Sales Report') {
+            dataToExport = transactions.map(trx => ({
+                Date: trx.date,
+                'Transaction ID': trx.id,
+                Customer: trx.customer,
+                Items: trx.items,
+                Amount: trx.amount,
+                Status: trx.status
+            }));
+        } else {
+            dataToExport = [{ message: "Data for this report type is currently unavailable." }];
+        }
+
+        const ws = XLSX.utils.json_to_sheet(dataToExport);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, activeTab.substring(0, 31)); // Excel sheet names max 31 chars
+        XLSX.writeFile(wb, `pharmastock_${activeTab.replace(/\s+/g, '_').toLowerCase()}.xlsx`);
+    };
 
     return (
         <div className="flex-1 flex flex-col min-h-screen bg-background-light dark:bg-background-dark -m-8">
@@ -76,11 +152,17 @@ export default function ReportsPage() {
                     </div>
 
                     <div className="flex items-center gap-3">
-                        <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-sm font-medium shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-slate-700 dark:text-slate-300">
+                        <button
+                            onClick={exportToPDF}
+                            className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-sm font-medium shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-slate-700 dark:text-slate-300"
+                        >
                             <span className="material-symbols-outlined text-red-500">picture_as_pdf</span>
                             Export PDF
                         </button>
-                        <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-sm font-medium shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-slate-700 dark:text-slate-300">
+                        <button
+                            onClick={exportToExcel}
+                            className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-sm font-medium shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-slate-700 dark:text-slate-300"
+                        >
                             <span className="material-symbols-outlined text-green-600">table_view</span>
                             Export Excel
                         </button>

@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useHeader } from '../layouts/HeaderContext';
+import { useTheme } from '../layouts/ThemeContext';
 
 export function Header() {
     const location = useLocation();
     const { titleContent, actionButton, setIsMobileMenuOpen } = useHeader();
+    const { theme, toggleTheme } = useTheme();
     const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
     const [isHelpOpen, setIsHelpOpen] = useState(false);
     const dropdownRef = useRef(null);
@@ -77,6 +79,17 @@ export function Header() {
             </div>
 
             <div ref={dropdownRef} className="flex items-center gap-1 sm:gap-2 md:gap-4 flex-shrink-0">
+                {/* Theme Toggle */}
+                <button
+                    onClick={toggleTheme}
+                    className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg transition-colors text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+                >
+                    <span className="material-symbols-outlined text-[20px] sm:text-[24px]">
+                        {theme === 'light' ? 'dark_mode' : 'light_mode'}
+                    </span>
+                </button>
+
                 {/* Notifications */}
                 <div className="relative">
                     <button
