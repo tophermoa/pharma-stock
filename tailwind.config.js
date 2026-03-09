@@ -4,6 +4,13 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  safelist: [
+    'bg-primary',
+    'bg-blue-400',
+    'bg-purple-400',
+    'bg-slate-300',
+    'dark:bg-slate-600'
+  ],
   darkMode: "class",
   theme: {
     extend: {
