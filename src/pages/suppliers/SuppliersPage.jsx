@@ -1,6 +1,40 @@
 import { useState, useEffect } from 'react';
 import { useHeader } from '../../layouts/HeaderContext';
 
+const TableSkeleton = () => (
+    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm overflow-hidden animate-pulse">
+        <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/20">
+            <div className="h-6 w-32 bg-slate-200 dark:bg-slate-700 rounded-lg"></div>
+            <div className="flex gap-2">
+                <div className="size-8 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                <div className="size-8 bg-slate-200 dark:bg-slate-700 rounded"></div>
+            </div>
+        </div>
+        <div className="h-10 bg-slate-100 dark:bg-slate-800/30"></div>
+        <div className="divide-y divide-slate-100 dark:divide-slate-800">
+            {Array(6).fill(0).map((_, i) => (
+                <div key={i} className="h-16 flex items-center px-6 gap-6">
+                    <div className="h-8 w-8 rounded bg-slate-200 dark:bg-slate-700 shrink-0"></div>
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/4"></div>
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/5"></div>
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/6"></div>
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/6"></div>
+                    <div className="h-6 w-16 bg-slate-200 dark:bg-slate-700 rounded-full mx-auto"></div>
+                </div>
+            ))}
+        </div>
+    </div>
+);
+
+const StatCardSkeleton = () => (
+    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4 animate-pulse pt-7 pb-7">
+        <div className="size-12 rounded-xl bg-slate-100 dark:bg-slate-800/50 shrink-0"></div>
+        <div className="flex-1 space-y-2">
+            <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded w-24 mb-3"></div>
+            <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded w-16"></div>
+        </div>
+    </div>
+);
 
 export default function SuppliersPage() {
     const [suppliers, setSuppliers] = useState([]);
@@ -19,6 +53,7 @@ export default function SuppliersPage() {
     useEffect(() => {
         const fetchSuppliers = async () => {
             try {
+                await new Promise(resolve => setTimeout(resolve, 800));
                 const response = await fetch('/api/suppliers.json');
                 if (!response.ok) throw new Error('Failed to fetch data');
                 const data = await response.json();
@@ -73,52 +108,56 @@ export default function SuppliersPage() {
 
                 {/* Summary Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
-                        <div className="size-12 rounded-xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400">
-                            <span className="material-symbols-outlined text-3xl">groups</span>
-                        </div>
-                        <div>
-                            <p className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-none">Total Suppliers</p>
-                            <p className="text-2xl font-bold text-slate-900 dark:text-white mt-2">128</p>
-                        </div>
-                    </div>
+                    {isLoading ? (
+                        Array(4).fill(0).map((_, i) => <StatCardSkeleton key={`stat-skeleton-${i}`} />)
+                    ) : (
+                        <>
+                            <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+                                <div className="size-12 rounded-xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                                    <span className="material-symbols-outlined text-3xl">groups</span>
+                                </div>
+                                <div>
+                                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-none">Total Suppliers</p>
+                                    <p className="text-2xl font-bold text-slate-900 dark:text-white mt-2">128</p>
+                                </div>
+                            </div>
 
-                    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
-                        <div className="size-12 rounded-xl bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-600 dark:text-green-400">
-                            <span className="material-symbols-outlined text-3xl">handshake</span>
-                        </div>
-                        <div>
-                            <p className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-none">Active Partnerships</p>
-                            <p className="text-2xl font-bold text-slate-900 dark:text-white mt-2">94</p>
-                        </div>
-                    </div>
+                            <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+                                <div className="size-12 rounded-xl bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-600 dark:text-green-400">
+                                    <span className="material-symbols-outlined text-3xl">handshake</span>
+                                </div>
+                                <div>
+                                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-none">Active Partnerships</p>
+                                    <p className="text-2xl font-bold text-slate-900 dark:text-white mt-2">94</p>
+                                </div>
+                            </div>
 
-                    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
-                        <div className="size-12 rounded-xl bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-orange-600 dark:text-orange-400">
-                            <span className="material-symbols-outlined text-3xl">pending_actions</span>
-                        </div>
-                        <div>
-                            <p className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-none">Pending Orders</p>
-                            <p className="text-2xl font-bold text-slate-900 dark:text-white mt-2">12</p>
-                        </div>
-                    </div>
+                            <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+                                <div className="size-12 rounded-xl bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-orange-600 dark:text-orange-400">
+                                    <span className="material-symbols-outlined text-3xl">pending_actions</span>
+                                </div>
+                                <div>
+                                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-none">Pending Orders</p>
+                                    <p className="text-2xl font-bold text-slate-900 dark:text-white mt-2">12</p>
+                                </div>
+                            </div>
 
-                    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
-                        <div className="size-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-                            <span className="material-symbols-outlined text-3xl">account_balance_wallet</span>
-                        </div>
-                        <div>
-                            <p className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-none">Total Procurement</p>
-                            <p className="text-2xl font-bold text-slate-900 dark:text-white mt-2">$42.5k</p>
-                        </div>
-                    </div>
+                            <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-4">
+                                <div className="size-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                                    <span className="material-symbols-outlined text-3xl">account_balance_wallet</span>
+                                </div>
+                                <div>
+                                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-none">Total Procurement</p>
+                                    <p className="text-2xl font-bold text-slate-900 dark:text-white mt-2">$42.5k</p>
+                                </div>
+                            </div>
+                        </>
+                    )}
                 </div>
 
                 {/* Table Section */}
                 {isLoading ? (
-                    <div className="flex items-center justify-center p-12 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm">
-                        <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                    </div>
+                    <TableSkeleton />
                 ) : error ? (
                     <div className="p-4 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-xl text-center border border-red-200 dark:border-red-800">
                         <p>{error}</p>
@@ -209,8 +248,8 @@ export default function SuppliersPage() {
                                         key={page}
                                         onClick={() => setCurrentPage(page)}
                                         className={`size-8 flex items-center justify-center rounded text-xs font-bold transition-colors ${currentPage === page
-                                                ? 'bg-primary text-white'
-                                                : 'border border-slate-200 dark:border-slate-800 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800'
+                                            ? 'bg-primary text-white'
+                                            : 'border border-slate-200 dark:border-slate-800 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800'
                                             }`}
                                     >
                                         {page}

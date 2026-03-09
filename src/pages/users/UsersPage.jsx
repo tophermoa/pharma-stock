@@ -1,6 +1,27 @@
 import { useState, useEffect } from 'react';
 import { useHeader } from '../../layouts/HeaderContext';
 
+const TableSkeleton = () => (
+    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm animate-pulse">
+        <div className="h-12 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800"></div>
+        <div className="divide-y divide-slate-100 dark:divide-slate-800">
+            {Array(6).fill(0).map((_, i) => (
+                <div key={i} className="h-16 flex items-center px-6 gap-6">
+                    <div className="flex items-center gap-3 w-1/3">
+                        <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 shrink-0"></div>
+                        <div className="space-y-2 flex-1">
+                            <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-2/3"></div>
+                            <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded w-1/2"></div>
+                        </div>
+                    </div>
+                    <div className="h-6 w-24 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/4"></div>
+                </div>
+            ))}
+        </div>
+    </div>
+);
+
 
 const getRoleBadgeClasses = (role) => {
     switch (role) {
@@ -34,6 +55,7 @@ export default function UsersPage() {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
+                await new Promise(resolve => setTimeout(resolve, 800));
                 const response = await fetch('/api/users.json');
                 if (!response.ok) throw new Error('Failed to fetch data');
                 const data = await response.json();
@@ -178,9 +200,7 @@ export default function UsersPage() {
 
                 {/* Table */}
                 {isLoading ? (
-                    <div className="flex items-center justify-center p-12 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                        <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                    </div>
+                    <TableSkeleton />
                 ) : error ? (
                     <div className="p-4 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-xl text-center border border-red-200 dark:border-red-800">
                         <p>{error}</p>

@@ -88,8 +88,23 @@ const getStockBadgeClasses = (status) => {
     }
 };
 
+const ProductCardSkeleton = () => (
+    <div className="flex flex-col bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden animate-pulse">
+        <div className="aspect-square bg-slate-100 dark:bg-slate-800/50 p-4 relative"></div>
+        <div className="p-3 flex flex-col flex-1 gap-2">
+            <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-3/4"></div>
+            <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded w-1/2 mb-2"></div>
+            <div className="mt-auto flex items-center justify-between">
+                <div className="h-5 bg-slate-200 dark:bg-slate-700 rounded w-1/3"></div>
+                <div className="size-8 bg-slate-200 dark:bg-slate-700 rounded-lg"></div>
+            </div>
+        </div>
+    </div>
+);
+
 export default function SalesPage() {
-    const [products] = useState(MOCK_PRODUCTS);
+    const [products, setProducts] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [cart, setCart] = useState([]);
     const [currentTime, setCurrentTime] = useState("");
     const [currentDate, setCurrentDate] = useState("");
@@ -138,6 +153,15 @@ export default function SalesPage() {
         // or we could use setInterval for real time. For exact match, hardcoding or static format is fine.
         setCurrentDate("Oct 24, 2023");
         setCurrentTime("14:42:01");
+    }, []);
+
+    useEffect(() => {
+        const loadCatalog = async () => {
+            await new Promise(resolve => setTimeout(resolve, 800));
+            setProducts(MOCK_PRODUCTS);
+            setIsLoading(false);
+        };
+        loadCatalog();
     }, []);
 
     // Keyboard Shortcuts
@@ -219,26 +243,30 @@ export default function SalesPage() {
                             </div>
                         )}
                         <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">
-                            {filteredProducts.map((product) => (
-                                <div key={product.id} className="group flex flex-col bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden hover:border-primary transition-all">
-                                    <div className="aspect-square bg-white dark:bg-slate-800 p-4 relative">
-                                        <img className="w-full h-full object-contain" alt={product.name} src={product.image} />
-                                        <span className={`absolute top-2 right-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase ${getStockBadgeClasses(product.stockStatus)}`}>
-                                            Stock: {product.stock}
-                                        </span>
-                                    </div>
-                                    <div className="p-3 flex flex-col flex-1">
-                                        <p className="text-sm font-bold line-clamp-1">{product.name}</p>
-                                        <p className="text-xs text-slate-500 mb-2">{product.desc}</p>
-                                        <div className="mt-auto flex items-center justify-between">
-                                            <span className="text-primary font-bold">${product.price.toFixed(2)}</span>
-                                            <button onClick={() => addToCart(product)} className="size-8 bg-primary text-white rounded-lg flex items-center justify-center hover:bg-blue-600 transition-colors">
-                                                <span className="material-symbols-outlined text-lg">add</span>
-                                            </button>
+                            {isLoading ? (
+                                Array(8).fill(0).map((_, i) => <ProductCardSkeleton key={`skeleton-${i}`} />)
+                            ) : (
+                                filteredProducts.map((product) => (
+                                    <div key={product.id} className="group flex flex-col bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden hover:border-primary transition-all">
+                                        <div className="aspect-square bg-white dark:bg-slate-800 p-4 relative">
+                                            <img className="w-full h-full object-contain" alt={product.name} src={product.image} />
+                                            <span className={`absolute top-2 right-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase ${getStockBadgeClasses(product.stockStatus)}`}>
+                                                Stock: {product.stock}
+                                            </span>
+                                        </div>
+                                        <div className="p-3 flex flex-col flex-1">
+                                            <p className="text-sm font-bold line-clamp-1">{product.name}</p>
+                                            <p className="text-xs text-slate-500 mb-2">{product.desc}</p>
+                                            <div className="mt-auto flex items-center justify-between">
+                                                <span className="text-primary font-bold">${product.price.toFixed(2)}</span>
+                                                <button onClick={() => addToCart(product)} className="size-8 bg-primary text-white rounded-lg flex items-center justify-center hover:bg-blue-600 transition-colors">
+                                                    <span className="material-symbols-outlined text-lg">add</span>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))
+                            )}
                         </div>
                     </div>
                 </section>

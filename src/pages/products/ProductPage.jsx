@@ -1,6 +1,23 @@
 import { useState, useEffect } from 'react';
 import { useHeader } from '../../layouts/HeaderContext';
 
+const TableSkeleton = () => (
+    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden animate-pulse">
+        <div className="h-14 bg-slate-100 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800"></div>
+        <div className="divide-y divide-slate-100 dark:divide-slate-800/50">
+            {Array(8).fill(0).map((_, i) => (
+                <div key={i} className="h-16 flex items-center px-6 gap-6">
+                    <div className="h-8 w-8 rounded bg-slate-200 dark:bg-slate-700 shrink-0"></div>
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/4"></div>
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/6"></div>
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/6"></div>
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/12"></div>
+                </div>
+            ))}
+        </div>
+    </div>
+);
+
 export default function ProductPage() {
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -45,6 +62,9 @@ export default function ProductPage() {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
+                // Simulate network delay to ensure skeleton loaders display smoothly
+                await new Promise(resolve => setTimeout(resolve, 800));
+
                 const response = await fetch('/api/products.json');
                 if (!response.ok) throw new Error('Failed to fetch data');
                 const data = await response.json();
@@ -146,9 +166,7 @@ export default function ProductPage() {
 
                 {/* Main Table Section */}
                 {isLoading ? (
-                    <div className="flex items-center justify-center p-12 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                        <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                    </div>
+                    <TableSkeleton />
                 ) : error ? (
                     <div className="p-4 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-xl text-center border border-red-200 dark:border-red-800">
                         <p>{error}</p>
@@ -220,8 +238,8 @@ export default function ProductPage() {
                                         key={page}
                                         onClick={() => setCurrentPage(page)}
                                         className={`size-8 flex items-center justify-center rounded-lg text-sm font-medium transition-colors ${currentPage === page
-                                                ? 'bg-primary text-white border border-primary'
-                                                : 'border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
+                                            ? 'bg-primary text-white border border-primary'
+                                            : 'border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
                                             }`}
                                     >
                                         {page}

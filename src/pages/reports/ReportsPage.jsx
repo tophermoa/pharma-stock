@@ -4,6 +4,55 @@ import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
+const RevenueChartSkeleton = () => (
+    <div className="space-y-4 animate-pulse pt-2">
+        {Array(4).fill(0).map((_, idx) => (
+            <div key={idx}>
+                <div className="flex justify-between mb-2">
+                    <div className="h-3 w-20 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                    <div className="h-3 w-8 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                </div>
+                <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                    <div className="bg-slate-200 dark:bg-slate-700 h-full w-2/3 rounded-full"></div>
+                </div>
+            </div>
+        ))}
+    </div>
+);
+
+const TransactionTableSkeleton = () => (
+    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden animate-pulse">
+        <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+            <div className="h-5 w-48 bg-slate-200 dark:bg-slate-700 rounded"></div>
+            <div className="h-4 w-16 bg-slate-200 dark:bg-slate-700 rounded"></div>
+        </div>
+        <div className="h-10 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800"></div>
+        <div className="divide-y divide-slate-100 dark:divide-slate-800">
+            {Array(5).fill(0).map((_, i) => (
+                <div key={i} className="h-16 flex items-center px-6 gap-6">
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/6"></div>
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/5"></div>
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/4"></div>
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/12"></div>
+                    <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/6"></div>
+                    <div className="h-5 w-16 bg-slate-200 dark:bg-slate-700 rounded-full ml-auto"></div>
+                </div>
+            ))}
+        </div>
+    </div>
+);
+
+const ReportStatCardSkeleton = () => (
+    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm animate-pulse">
+        <div className="flex justify-between items-start mb-4">
+            <div className="h-10 w-10 bg-slate-100 dark:bg-slate-800/50 rounded-lg"></div>
+            <div className="h-5 w-12 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+        </div>
+        <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded w-24 mb-4"></div>
+        <div className="h-7 bg-slate-200 dark:bg-slate-700 rounded w-32 mt-1"></div>
+    </div>
+);
+
 export default function ReportsPage() {
     const [transactions, setTransactions] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -19,6 +68,9 @@ export default function ReportsPage() {
     useEffect(() => {
         const fetchReports = async () => {
             try {
+                // Simulate network delay for skeleton loaders
+                await new Promise(resolve => setTimeout(resolve, 800));
+
                 const response = await fetch('/api/reports.json');
                 if (!response.ok) throw new Error('Failed to fetch data');
                 const data = await response.json();
@@ -184,49 +236,55 @@ export default function ReportsPage() {
                     <>
                         {/* Summary Cards */}
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                            <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                                <div className="flex justify-between items-start mb-4">
-                                    <div className="p-2 bg-primary/10 rounded-lg">
-                                        <span className="material-symbols-outlined text-primary">payments</span>
+                            {isLoading ? (
+                                Array(4).fill(0).map((_, i) => <ReportStatCardSkeleton key={`report-stat-${i}`} />)
+                            ) : (
+                                <>
+                                    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                                        <div className="flex justify-between items-start mb-4">
+                                            <div className="p-2 bg-primary/10 rounded-lg">
+                                                <span className="material-symbols-outlined text-primary">payments</span>
+                                            </div>
+                                            <span className="text-green-600 text-xs font-bold bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded-full">+12.5%</span>
+                                        </div>
+                                        <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Revenue</p>
+                                        <h3 className="text-2xl font-bold mt-1 dark:text-white">$45,280.00</h3>
                                     </div>
-                                    <span className="text-green-600 text-xs font-bold bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded-full">+12.5%</span>
-                                </div>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Revenue</p>
-                                <h3 className="text-2xl font-bold mt-1 dark:text-white">$45,280.00</h3>
-                            </div>
 
-                            <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                                <div className="flex justify-between items-start mb-4">
-                                    <div className="p-2 bg-blue-500/10 rounded-lg">
-                                        <span className="material-symbols-outlined text-blue-500">shopping_bag</span>
+                                    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                                        <div className="flex justify-between items-start mb-4">
+                                            <div className="p-2 bg-blue-500/10 rounded-lg">
+                                                <span className="material-symbols-outlined text-blue-500">shopping_bag</span>
+                                            </div>
+                                            <span className="text-red-600 text-xs font-bold bg-red-50 dark:bg-red-900/20 px-2 py-0.5 rounded-full">-2.4%</span>
+                                        </div>
+                                        <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Orders</p>
+                                        <h3 className="text-2xl font-bold mt-1 dark:text-white">1,240</h3>
                                     </div>
-                                    <span className="text-red-600 text-xs font-bold bg-red-50 dark:bg-red-900/20 px-2 py-0.5 rounded-full">-2.4%</span>
-                                </div>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Orders</p>
-                                <h3 className="text-2xl font-bold mt-1 dark:text-white">1,240</h3>
-                            </div>
 
-                            <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                                <div className="flex justify-between items-start mb-4">
-                                    <div className="p-2 bg-emerald-500/10 rounded-lg">
-                                        <span className="material-symbols-outlined text-emerald-500">trending_up</span>
+                                    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                                        <div className="flex justify-between items-start mb-4">
+                                            <div className="p-2 bg-emerald-500/10 rounded-lg">
+                                                <span className="material-symbols-outlined text-emerald-500">trending_up</span>
+                                            </div>
+                                            <span className="text-green-600 text-xs font-bold bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded-full">+8.1%</span>
+                                        </div>
+                                        <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Gross Profit</p>
+                                        <h3 className="text-2xl font-bold mt-1 dark:text-white">$12,850.00</h3>
                                     </div>
-                                    <span className="text-green-600 text-xs font-bold bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded-full">+8.1%</span>
-                                </div>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Gross Profit</p>
-                                <h3 className="text-2xl font-bold mt-1 dark:text-white">$12,850.00</h3>
-                            </div>
 
-                            <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                                <div className="flex justify-between items-start mb-4">
-                                    <div className="p-2 bg-purple-500/10 rounded-lg">
-                                        <span className="material-symbols-outlined text-purple-500">analytics</span>
+                                    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                                        <div className="flex justify-between items-start mb-4">
+                                            <div className="p-2 bg-purple-500/10 rounded-lg">
+                                                <span className="material-symbols-outlined text-purple-500">analytics</span>
+                                            </div>
+                                            <span className="text-green-600 text-xs font-bold bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded-full">+1.2%</span>
+                                        </div>
+                                        <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Avg Order Value</p>
+                                        <h3 className="text-2xl font-bold mt-1 dark:text-white">$36.50</h3>
                                     </div>
-                                    <span className="text-green-600 text-xs font-bold bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded-full">+1.2%</span>
-                                </div>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">Avg Order Value</p>
-                                <h3 className="text-2xl font-bold mt-1 dark:text-white">$36.50</h3>
-                            </div>
+                                </>
+                            )}
                         </div>
 
                         {/* Chart Area */}
@@ -291,9 +349,7 @@ export default function ReportsPage() {
                                     <h4 className="font-bold mb-6 dark:text-white">Revenue by Category</h4>
 
                                     {isLoadingRevenue ? (
-                                        <div className="flex justify-center py-8">
-                                            <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-                                        </div>
+                                        <RevenueChartSkeleton />
                                     ) : revenueData ? (
                                         <div className="space-y-4">
                                             {revenueData.categories.map((cat, idx) => (
@@ -324,9 +380,7 @@ export default function ReportsPage() {
 
                         {/* Recent Transactions Table */}
                         {isLoading ? (
-                            <div className="flex items-center justify-center p-12 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                                <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                            </div>
+                            <TransactionTableSkeleton />
                         ) : error ? (
                             <div className="p-4 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-xl text-center border border-red-200 dark:border-red-800">
                                 <p>{error}</p>

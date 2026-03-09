@@ -2,6 +2,17 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
+const StatCardSkeleton = () => (
+    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col shadow-sm animate-pulse">
+        <div className="flex items-center justify-between mb-4">
+            <div className="w-12 h-12 rounded-lg bg-slate-200 dark:bg-slate-800"></div>
+            <div className="w-16 h-6 rounded-full bg-slate-200 dark:bg-slate-800"></div>
+        </div>
+        <div className="w-24 h-4 rounded bg-slate-200 dark:bg-slate-800 mt-1"></div>
+        <div className="w-20 h-8 rounded bg-slate-200 dark:bg-slate-800 mt-3"></div>
+    </div>
+);
+
 export default function DashboardPage() {
     const navigate = useNavigate();
     const [dashboardData, setDashboardData] = React.useState({
@@ -14,6 +25,9 @@ export default function DashboardPage() {
     React.useEffect(() => {
         const fetchDashboardData = async () => {
             try {
+                // Simulate a slight network delay to show off the skeleton loaders gracefully
+                await new Promise(resolve => setTimeout(resolve, 800));
+
                 const response = await fetch('/api/dashboard.json');
                 if (!response.ok) throw new Error('Failed to fetch data');
                 const data = await response.json();
@@ -32,49 +46,55 @@ export default function DashboardPage() {
             <div className="flex-1 p-8 space-y-6">
                 {/* Summary Stats */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col shadow-sm">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                                <span className="material-symbols-outlined">inventory</span>
+                    {isLoading ? (
+                        Array(4).fill(0).map((_, i) => <StatCardSkeleton key={i} />)
+                    ) : (
+                        <>
+                            <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col shadow-sm">
+                                <div className="flex items-center justify-between mb-4">
+                                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                                        <span className="material-symbols-outlined">inventory</span>
+                                    </div>
+                                    <span className="text-xs font-bold text-green-600 bg-green-100 dark:bg-green-900/30 dark:text-green-400 px-2 py-1 rounded-full">+2.4%</span>
+                                </div>
+                                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Total Products</p>
+                                <h3 className="text-2xl font-bold mt-1 dark:text-white">1,240</h3>
                             </div>
-                            <span className="text-xs font-bold text-green-600 bg-green-100 dark:bg-green-900/30 dark:text-green-400 px-2 py-1 rounded-full">+2.4%</span>
-                        </div>
-                        <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Total Products</p>
-                        <h3 className="text-2xl font-bold mt-1 dark:text-white">1,240</h3>
-                    </div>
 
-                    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col shadow-sm">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="w-12 h-12 rounded-lg bg-orange-100 dark:bg-orange-500/10 flex items-center justify-center text-orange-600 dark:text-orange-500">
-                                <span className="material-symbols-outlined">warning</span>
+                            <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col shadow-sm">
+                                <div className="flex items-center justify-between mb-4">
+                                    <div className="w-12 h-12 rounded-lg bg-orange-100 dark:bg-orange-500/10 flex items-center justify-center text-orange-600 dark:text-orange-500">
+                                        <span className="material-symbols-outlined">warning</span>
+                                    </div>
+                                    <span className="text-xs font-bold text-orange-600 bg-orange-100 dark:bg-orange-500/20 dark:text-orange-400 px-2 py-1 rounded-full">Action Required</span>
+                                </div>
+                                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Low Stock</p>
+                                <h3 className="text-2xl font-bold mt-1 dark:text-white">12</h3>
                             </div>
-                            <span className="text-xs font-bold text-orange-600 bg-orange-100 dark:bg-orange-500/20 dark:text-orange-400 px-2 py-1 rounded-full">Action Required</span>
-                        </div>
-                        <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Low Stock</p>
-                        <h3 className="text-2xl font-bold mt-1 dark:text-white">12</h3>
-                    </div>
 
-                    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col shadow-sm">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="w-12 h-12 rounded-lg bg-red-100 dark:bg-red-500/10 flex items-center justify-center text-red-600 dark:text-red-500">
-                                <span className="material-symbols-outlined">event_busy</span>
+                            <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col shadow-sm">
+                                <div className="flex items-center justify-between mb-4">
+                                    <div className="w-12 h-12 rounded-lg bg-red-100 dark:bg-red-500/10 flex items-center justify-center text-red-600 dark:text-red-500">
+                                        <span className="material-symbols-outlined">event_busy</span>
+                                    </div>
+                                    <span className="text-xs font-bold text-red-600 bg-red-100 dark:bg-red-500/20 dark:text-red-400 px-2 py-1 rounded-full">Urgent</span>
+                                </div>
+                                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Expiring Soon</p>
+                                <h3 className="text-2xl font-bold mt-1 dark:text-white">8</h3>
                             </div>
-                            <span className="text-xs font-bold text-red-600 bg-red-100 dark:bg-red-500/20 dark:text-red-400 px-2 py-1 rounded-full">Urgent</span>
-                        </div>
-                        <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Expiring Soon</p>
-                        <h3 className="text-2xl font-bold mt-1 dark:text-white">8</h3>
-                    </div>
 
-                    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col shadow-sm">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-500/10 flex items-center justify-center text-green-600 dark:text-green-500">
-                                <span className="material-symbols-outlined">payments</span>
+                            <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-col shadow-sm">
+                                <div className="flex items-center justify-between mb-4">
+                                    <div className="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-500/10 flex items-center justify-center text-green-600 dark:text-green-500">
+                                        <span className="material-symbols-outlined">payments</span>
+                                    </div>
+                                    <span className="text-xs font-bold text-slate-400 dark:text-slate-500">vs yesterday</span>
+                                </div>
+                                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Daily Sales</p>
+                                <h3 className="text-2xl font-bold mt-1 dark:text-white">$4,250.00</h3>
                             </div>
-                            <span className="text-xs font-bold text-slate-400 dark:text-slate-500">vs yesterday</span>
-                        </div>
-                        <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Daily Sales</p>
-                        <h3 className="text-2xl font-bold mt-1 dark:text-white">$4,250.00</h3>
-                    </div>
+                        </>
+                    )}
                 </div>
 
                 {/* Main Grid */}
@@ -95,8 +115,10 @@ export default function DashboardPage() {
 
                             <div className="h-[280px] w-full mt-4">
                                 {isLoading ? (
-                                    <div className="w-full h-full flex items-center justify-center">
-                                        <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                                    <div className="w-full h-full flex items-end gap-3 px-4 pb-8 animate-pulse">
+                                        {Array(6).fill(0).map((_, i) => (
+                                            <div key={i} className="flex-1 bg-slate-100 dark:bg-slate-800 rounded-t-lg" style={{ height: `${Math.floor(Math.random() * 60) + 20}%` }}></div>
+                                        ))}
                                     </div>
                                 ) : error ? (
                                     <div className="w-full h-full flex items-center justify-center text-red-500">{error}</div>
@@ -144,8 +166,10 @@ export default function DashboardPage() {
                             </div>
                             <div className="overflow-x-auto">
                                 {isLoading ? (
-                                    <div className="flex items-center justify-center p-8">
-                                        <div className="w-6 h-6 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+                                    <div className="flex flex-col gap-3 p-6 animate-pulse">
+                                        {Array(4).fill(0).map((_, i) => (
+                                            <div key={i} className="w-full h-12 bg-slate-100 dark:bg-slate-800/50 rounded-lg"></div>
+                                        ))}
                                     </div>
                                 ) : error ? (
                                     <div className="p-4 text-center text-red-500">{error}</div>
@@ -220,27 +244,42 @@ export default function DashboardPage() {
                         <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
                             <h3 className="text-lg font-bold mb-4 dark:text-white">Stock Alerts</h3>
                             <div className="space-y-4">
-                                <div className="flex gap-4 items-start p-4 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20">
-                                    <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-500 flex items-center justify-center shrink-0">
-                                        <span className="material-symbols-outlined text-[20px]">priority_high</span>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-bold dark:text-slate-200">Metformin 500mg</p>
-                                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Stock Level: 5 units remaining</p>
-                                        <button className="text-xs text-primary font-bold mt-3 hover:underline">Reorder Now</button>
-                                    </div>
-                                </div>
+                                {isLoading ? (
+                                    Array(2).fill(0).map((_, i) => (
+                                        <div key={i} className="flex gap-4 items-start p-4 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20 animate-pulse">
+                                            <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 shrink-0"></div>
+                                            <div className="flex-1 space-y-3 py-1">
+                                                <div className="h-3 bg-slate-200 dark:bg-slate-800 rounded w-2/3"></div>
+                                                <div className="h-2 bg-slate-200 dark:bg-slate-800 rounded w-1/2"></div>
+                                                <div className="h-2 bg-slate-200 dark:bg-slate-800 rounded w-1/4 mt-4"></div>
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <>
+                                        <div className="flex gap-4 items-start p-4 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20">
+                                            <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-500 flex items-center justify-center shrink-0">
+                                                <span className="material-symbols-outlined text-[20px]">priority_high</span>
+                                            </div>
+                                            <div>
+                                                <p className="text-sm font-bold dark:text-slate-200">Metformin 500mg</p>
+                                                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Stock Level: 5 units remaining</p>
+                                                <button className="text-xs text-primary font-bold mt-3 hover:underline">Reorder Now</button>
+                                            </div>
+                                        </div>
 
-                                <div className="flex gap-4 items-start p-4 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20">
-                                    <div className="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-500/10 text-orange-600 dark:text-orange-500 flex items-center justify-center shrink-0">
-                                        <span className="material-symbols-outlined text-[20px]">schedule</span>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-bold dark:text-slate-200">Vitamin D3 2000IU</p>
-                                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Expiring in 14 days</p>
-                                        <button className="text-xs text-primary font-bold mt-3 hover:underline">Mark for Sale</button>
-                                    </div>
-                                </div>
+                                        <div className="flex gap-4 items-start p-4 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20">
+                                            <div className="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-500/10 text-orange-600 dark:text-orange-500 flex items-center justify-center shrink-0">
+                                                <span className="material-symbols-outlined text-[20px]">schedule</span>
+                                            </div>
+                                            <div>
+                                                <p className="text-sm font-bold dark:text-slate-200">Vitamin D3 2000IU</p>
+                                                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Expiring in 14 days</p>
+                                                <button className="text-xs text-primary font-bold mt-3 hover:underline">Mark for Sale</button>
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
                             </div>
 
                             <button className="w-full mt-6 text-center text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-primary transition-colors py-2">
