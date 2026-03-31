@@ -138,9 +138,9 @@ export default function LoginPage() {
                             <span className="material-symbols-outlined text-sm">verified_user</span> Secure SSL Encrypted
                         </span>
                         <span className="w-px h-3 bg-slate-300 dark:bg-slate-600"></span>
-                        <span className="text-xs font-bold text-slate-600 dark:text-slate-400">v.1.0.0-stable</span>
+                        <span className="text-xs font-bold text-slate-600 dark:text-slate-400">v.1.0.0</span>
                     </div>
-                    <p className="text-slate-400 text-[10px] uppercase tracking-[0.2em] font-semibold">© 2024 PharmaStock Global Inc.</p>
+                    <p className="text-slate-400 text-[10px] uppercase tracking-[0.2em] font-semibold">© 2026 PharmaStock Inc.</p>
                 </div>
             </div>
 

@@ -4,6 +4,9 @@ PharmaStock is a modern, responsive frontend User Interface template built for P
 
 This project is a visual mock/UI-template. It does not contain an active backend integration, and effectively uses mock JSON data throughout all pages to demonstrate the UI behavior.
 
+## Demo
+**Live Demo:** https://legendary-axolotl-5cb8bd.netlify.app
+
 ## Technologies Use
 
 *   **React 18**
